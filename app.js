@@ -33,7 +33,7 @@ app.post('/api/recipes', (req, res, next) => {
     recipe.save().then(
         () => {
             res.status(201).json({
-                message: 'Post saved successfully!'
+                message: 'Recipe saved successfully!'
             });
         }
     ).catch(
@@ -55,6 +55,46 @@ app.get('/api/recipes/:id', (req, res, next) => {
     ).catch(
         (error) => {
             res.status(404).json({
+                error: error
+            });
+        }
+    );
+});
+/* PUT ROUTE modifies the recipe with the provided ID */
+app.put('/api/recipes/:id', (req, res, next) => {
+    const recipe = new Recipe({
+        _id: req.params.id,
+        title: req.body.title,
+        ingredients: req.body.ingredients,
+        instructions: req.body.instructions,
+        difficulty: req.body.difficulty,
+        time: req.body.time        
+    });
+    Recipe.updateOne({_id: req.params.id}, recipe).then(
+        () => {
+            res.status(200).json({
+                message: 'Recipe updated successfully!'
+            });
+        }
+    ).catch(
+        (error) => {
+            res.status(400).json({
+                error: error
+            });
+        }
+    );
+});
+/*DELETE  ROUTE deletes the recipe with the provided ID /api/recipes/:id */
+app.delete('api/recipes/:id', (req, res, next) => {
+    Recipe.deleteOne({_id: req.params.id}).then(
+        () => {
+            res.status(200).json({
+                message: 'Recipe Deleted!'
+            });
+        }
+    ).catch(
+        (error) => {
+            res.status(400).json({
                 error: error
             });
         }
