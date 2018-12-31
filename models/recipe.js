@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+/* RECIPE Schema */
 const recipeSchema = mongoose.Schema({
     title: { type: String, required: true },
     ingredients: { type: String, required: true },
